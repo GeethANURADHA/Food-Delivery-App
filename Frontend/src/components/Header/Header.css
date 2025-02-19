@@ -1,0 +1,41 @@
+.header {
+  height: 34vw;
+  margin: 30px auto;
+  background-image: url("https://i.pinimg.com/736x/a7/09/2d/a7092d2da17f1b8be4fc5f9b31583ca8.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+}
+.header-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1vw;
+  max-width: 50%;
+  bottom: 10%;
+  left: 6vw;
+  animation: fadeIn 3s;
+}
+
+.header-content h2 {
+  font-weight: 500;
+  color: #696161;
+  font-size: max(4.5vw, 25px);
+}
+
+.header-content p {
+  font-size: 1vw;
+  color: #696161;
+}
+
+.header-content button {
+  background-color: #d79c9c;
+  color: #6c62a6;
+  border: none;
+  padding: 1vw 2.3vw;
+  font-weight: 500;
+  font-size: max(1vw, 12px);
+  cursor: pointer;
+  border-radius: 50px;
+}

@@ -1,0 +1,17 @@
+.explore-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20vw;
+}
+.explore-menu h1 {
+  font-weight: 500;
+  color: #696161;
+}
+.explore-menu-text {
+  max-width: 60%;
+  columns: #80808080;
+}
+
+.explore-menu-list {
+  display: flex;
+}
