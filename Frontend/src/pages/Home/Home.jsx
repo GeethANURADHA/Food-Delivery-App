@@ -4,10 +4,12 @@ import Header from "../../components/Header/Header";
 import ExploreMenu from "../../components/ExploreMenu/ExploreMenu";
 
 const Home = () => {
+  const [category, setCategory] = useState("all");
+
   return (
     <div>
       <Header />
-      <ExploreMenu />
+      <ExploreMenu category={category} setCategory={setCategory} />
     </div>
   );
 };

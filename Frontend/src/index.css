@@ -8,6 +8,10 @@
 }
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
 }
 a {
   text-decoration: none;
@@ -16,4 +20,13 @@ a {
 .app {
   width: 80%;
   margin: auto;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
