@@ -44,3 +44,13 @@
   height: 2px;
   margin: 20px 0;
 }
+@media (max-width: 1050px) {
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .footer-copyright {
+    text-align: center;
+  }
+}

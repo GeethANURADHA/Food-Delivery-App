@@ -3,17 +3,17 @@ import "./Header.css";
 
 const Header = () => {
   return (
-    <div className="header">
+    <header className="header">
       <div className="header-content">
-        <h2>order your favorite food here</h2>
+        <h2>Order Your Favorite Food Here</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
           euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan
           et viverra justo commodo.
         </p>
-        <button>View Menu</button>
+        <button aria-label="View Menu">View Menu</button>
       </div>
-    </div>
+    </header>
   );
 };
 
