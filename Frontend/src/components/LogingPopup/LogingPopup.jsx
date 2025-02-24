@@ -14,7 +14,7 @@ const LogingPopup = (setShowLogin) => {
           <img
             onClick={() => setShowLogin(false)}
             src={assets.cross_icon}
-            alt=""
+            alt="Close"
           />
         </div>
 
