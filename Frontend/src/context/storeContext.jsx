@@ -1,47 +1,52 @@
-import { createContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import { food_list } from "../assets/assets";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export const StoreContext = createContext(null);
 
-const StoreProvider = (props) => {
-  const [cartItems, setCartItems] = useState({});
+const StoreProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    }
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] || 0) + 1,
+    }));
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: Math.max((prev[itemId] || 0) - 1, 0),
+    }));
   };
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItems[item];
-      }
-    }
-    return totalAmount;
+    return Object.keys(cartItems).reduce((total, item) => {
+      const itemInfo = food_list.find(
+        (product) => product._id === Number(item)
+      );
+      return itemInfo ? total + itemInfo.price * cartItems[item] : total;
+    }, 0);
   };
 
-  const contextValue = {
-    food_list,
-    cartItems,
-    setCartItems,
-    addToCart,
-    removeFromCart,
-    getTotalCartAmount,
-  };
   return (
-    <StoreContext.Provider value={contextValue}>
-      {props.children}
+    <StoreContext.Provider
+      value={{
+        food_list,
+        cartItems,
+        addToCart,
+        removeFromCart,
+        getTotalCartAmount,
+      }}
+    >
+      {children}
     </StoreContext.Provider>
   );
 };

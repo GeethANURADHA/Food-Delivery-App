@@ -1,59 +1,78 @@
-import React from "react";
-import { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
-import { Link } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 
+const menuItems = [
+  { name: "Home", path: "/" },
+  { name: "Menu", path: "#explore-menu" },
+  { name: "Mobile App", path: "#app-download" },
+  { name: "Contact Us", path: "#footer" },
+];
+
 const Navbar = ({ setShowlogin }) => {
+  const location = useLocation();
   const [menu, setMenu] = useState("home");
-  const { getTotalCartAmount } = useContext(StoreContext);
+  const { getTotalCartAmount } = useContext(StoreContext) || {};
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setMenu("Home");
+    }
+  }, [location.pathname]);
+
+  const handleMenuClick = (name, path) => {
+    setMenu(name);
+    if (path.startsWith("#")) {
+      document.querySelector(path)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="navbar">
       <Link to="/">
-        <img src={assets.logo} alt="" className="logo" />
+        <img src={assets.logo} alt="Logo" className="logo" />
       </Link>
       <ul className="navbar-menu">
-        <Link
-          to="/"
-          onClick={() => setMenu("home")}
-          className={menu === "home" ? "active" : ""}
-        >
-          Home
-        </Link>
-        <a
-          href="#explore-menu"
-          onClick={() => setMenu("menu")}
-          className={menu === "menu" ? "active" : ""}
-        >
-          menu
-        </a>
-        <a
-          href="#app-download"
-          onClick={() => setMenu("Mobile App")}
-          className={menu === "Mobile App" ? "active" : ""}
-        >
-          Mobile App
-        </a>
-        <a
-          href="#footer"
-          onClick={() => setMenu("Contact us")}
-          className={menu === "Contact us" ? "active" : ""}
-        >
-          Contact us
-        </a>
+        {menuItems.map(({ name, path }) => (
+          <li key={name}>
+            {path.startsWith("#") ? (
+              <a
+                href={path}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleMenuClick(name, path);
+                }}
+                className={menu === name ? "active" : ""}
+              >
+                {name}
+              </a>
+            ) : (
+              <Link
+                to={path}
+                onClick={() => handleMenuClick(name, path)}
+                className={menu === name ? "active" : ""}
+              >
+                {name}
+              </Link>
+            )}
+          </li>
+        ))}
       </ul>
       <div className="navbar-right">
-        <img src={assets.search_icon} alt="" />
+        <img src={assets.search_icon} alt="Search" />
         <div className="navbar-search-icon">
           <Link to="/cart">
-            <img src={assets.basket_icon} alt="" />
+            <img src={assets.basket_icon} alt="Cart" />
           </Link>
-
-          <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+          <div
+            className={
+              getTotalCartAmount && getTotalCartAmount() > 0 ? "dot" : ""
+            }
+          ></div>
         </div>
-        <button onClick={() => setShowlogin(true)}>sign in</button>
+        <button onClick={() => setShowlogin(true)}>Sign in</button>
       </div>
     </div>
   );
